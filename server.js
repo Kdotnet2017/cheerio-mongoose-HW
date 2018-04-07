@@ -3,7 +3,7 @@ var mongoose=require("mongoose");
 var cheerio=require("cheerio");
 var connection=require("./config/connection.js");
 var env = require('dotenv').load();
-const PORT=process.env.PORT | 5000;
+var PORT = process.env.PORT || 5000;
 
 var app=express();
 
