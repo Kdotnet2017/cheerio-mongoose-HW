@@ -1,6 +1,14 @@
 var express=require("express");
 var router=express.Router();
 var db=require("../models");
+var path=require("path");
+
+router.get('/', function(req, res) {
+ 
+    res.sendFile(path.join(__dirname, "public/index.html"));
+ 
+});
+
 router.get("/news",function(req,res){
     db.Comment.find({}).then(function(data){
         res.json(data);
