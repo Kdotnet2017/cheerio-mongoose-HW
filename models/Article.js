@@ -5,7 +5,8 @@ var ArticleSchema=new Schema({
     headline:{
         type:String,
         required: true,
-        trim:true
+        trim:true,
+        unique:true
     },
     summary:{
         type:String,
@@ -22,10 +23,6 @@ var ArticleSchema=new Schema({
     byline:{
         type:String,
         default:"N/A"
-    },
-    dateline:{
-        type:Date,
-        required:false
     },
     userComment:{
         type:Schema.Types.ObjectId,

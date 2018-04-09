@@ -22,7 +22,8 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "mongoose": "^5.0.13",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "dotenv": "^5.0.1"
