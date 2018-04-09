@@ -77,7 +77,7 @@ function displayNews() {
             localStorage.setItem("scrapeObj", JSON.stringify(data));
         }
         for (var i = 0; i < data.length; i++) {
-            $("#results").prepend("<p >" + data[i].headline + "<button  id='" + data[i].headline + "' class='btnSave'>Save</button> </p>");
+            $("#results").prepend("<p class='lead' ><img  class='img-thumbnail' src='"+data[i].imageUrl+"'>" + data[i].headline + "<button  id='" + data[i].headline + "' class='btnSave btn-primary btn-lg'>Save</button> </p><hr>");
         }
     });
 }

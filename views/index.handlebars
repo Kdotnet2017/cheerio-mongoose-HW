@@ -1,25 +1,36 @@
-<input  id="btnScrap" type="button" value="Scrape it">
-<input id="btnSaved" type="button" value="Saved">
- <div id="results"></div>
 
 
- <!-- Modal -->
-  <div class="modal fade " id="addNoteModal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" id="articleId"></h4>
-        </div>
-        <div class="modal-body">
-          <div id="notesDiv"></div>
-        <div class="input-group input-group-lg">
-        <input class="form-control" id="txtNote" type="text" placeholder="New Note">
+<div id="results"></div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addNoteModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="articleId"></h4>
       </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="COL-SM-6 text-center">
+            <div id="notesDiv"></div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button id="btnAddComment" type="button" class="btn btn-default" data-dismiss="modal">Save Notes</button>
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <div class="input-group input-group-lg">
+              <input class="form-control" id="txtNote" type="text" placeholder="New Note">
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnAddComment" type="button" class="btn btn-default" data-dismiss="modal">Save Notes</button>
       </div>
     </div>
   </div>
+</div>
