@@ -11,6 +11,29 @@ router.get('/', function (req, res) {
     res.render("index");
 });
 
+router.get("/api/comments/:articleId",function(req,res){
+    db.Article.find({_id:req.params.articleId}).populate("userComment").then(function(data){
+        console.log(data);
+        res.json(data);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+router.post("/api/DeleteComment/:id",function(req,res){
+    db.Comment.findOneAndRemove({_id: req.params.id}).then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(err);
+    });
+});
+
+/*router.post("/api/DeleteComment/:id",function(req,res){
+    db.Comment.remove({_id: req.params.id}).then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(err);
+    });
+});*/
 router.get("/api/articles", function (req, res) {
     db.Article.find({}).then(function (data) {
         res.json(data);
@@ -18,11 +41,14 @@ router.get("/api/articles", function (req, res) {
         res.json(err);
     });
 });
-router.post("/save", function (req, res) {
-    var comment = new db.Comment();
-    comment.note = "This is just test!";
-    db.Comment.create(comment).then(function (data) {
-        res.json(data);
+router.post("/api/saveComment/:id", function (req, res) {
+
+    db.Comment.create(req.body).then(function (data) {
+       return db.Article.findOneAndUpdate({_id:req.params.id},{$push:{userComment:data._id}},{new:true});
+    }).then(function(dbArticle){
+        res.json(dbArticle);
+    }).catch(function(err){
+        return res.json(err);
     });
 });
 router.post("/api/DeleteArticle/:id", function (req, res) {
@@ -30,9 +56,6 @@ router.post("/api/DeleteArticle/:id", function (req, res) {
     });
 });
 router.post("/api/saveArticle", function (req, res) {
-    var article = new db.Article();
-    //console.log(req.body);
-
     db.Article.create(req.body).then(function (data) {
         res.json(data);
     }).catch(function (err) {

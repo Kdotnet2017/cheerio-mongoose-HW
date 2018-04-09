@@ -4,7 +4,7 @@
 
 
  <!-- Modal -->
-  <div class="modal fade" id="addNoteModal">
+  <div class="modal fade " id="addNoteModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -12,10 +12,13 @@
           <h4 class="modal-title" id="articleId"></h4>
         </div>
         <div class="modal-body">
-          <p></p>
+          <div id="notesDiv"></div>
+        <div class="input-group input-group-lg">
+        <input class="form-control" id="txtNote" type="text" placeholder="New Note">
+      </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Save Notes</button>
+          <button id="btnAddComment" type="button" class="btn btn-default" data-dismiss="modal">Save Notes</button>
         </div>
       </div>
     </div>

@@ -7,14 +7,47 @@ $("#btnSaved").on("click",function(event){
         for(var i=0; i<data.length;i++){
             $("#results").prepend("<p id='"+data[i]._id+"'>"+data[i].headline+"<button id='"+data[i]._id+"' class='btnAddNote btn btn-info btn-lg'  data-toggle='modal' data-target='addNoteModal' >Article Notes</button><button id='"+data[i]._id+"' class='btnDelete'>Delete from Saved</button> </p>");
         }
-       console.log(data);
+      // console.log(data);
     });
 });
 $(document).on("click",".btnAddNote",function(){
     var id=$(this).attr("id");
     $("#articleId").text("Notes for article: "+id);
     $('#addNoteModal').modal('show');
+    $.getJSON("/api/comments/"+id,function(data){
+        console.log("I am here");
+        console.log(data);
+        $("#notesDiv").empty();
+        $("#txtNote").val("");
+        for(var i=0;i<data[0].userComment.length;i++){
+            $("#notesDiv").prepend("<p  data-id='"+data[0].userComment[i]._id+"'>"+data[0].userComment[i].note+"<button data-id='"+data[0].userComment[i]._id+"'  class='btnNotesDiv'>delete</button> ");
+        }
+    })
+
+    $("#btnAddComment").on("click",function(event){
+        $.ajax({
+            method:"POST",
+            url:"/api/saveComment/"+id,
+            data:{
+                note:$("#txtNote").val(),
+            }
+        }).then(function(data){
+            console.log(data);
+        })
+    })
 });
+$(document).on("click",".btnNotesDiv",function(event){
+    event.preventDefault();
+    var id=$(this).attr("data-id");
+    console.log(id);
+    $.ajax({
+        method:"POST",
+        url:"/api/DeleteComment/"+id
+    }).then(function(data){
+        console.log("deleted..");
+    })
+})
+
 
 $(document).on("click",".btnDelete",function(){
     $('#addNoteModal').modal({ show: false });

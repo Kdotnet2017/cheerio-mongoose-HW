@@ -24,10 +24,10 @@ var ArticleSchema=new Schema({
         type:String,
         default:"N/A"
     },
-    userComment:{
+    userComment:[{
         type:Schema.Types.ObjectId,
         ref:"Comment"
-    }
+    }]
 });
 var Article=mongoose.model("Article",ArticleSchema);
 module.exports=Article;

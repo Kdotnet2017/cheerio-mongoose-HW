@@ -7,11 +7,7 @@ var CommentSchema=new Schema({
         required:true,
         trim:true
     },
-    // might be used later
-    userSession:{
-        type:String,
-        required:false
-    },
+   
     createdAt:{
         type:Date,
         default:Date.now()
