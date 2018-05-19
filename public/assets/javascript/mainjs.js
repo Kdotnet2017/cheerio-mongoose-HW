@@ -1,66 +1,65 @@
-
-$("#btnSaved").on("click",function(event){
+$("#btnSaved").on("click", function (event) {
     event.preventDefault();
-    $.getJSON("/api/articles",function(data){
+    $.getJSON("/api/articles", function (data) {
         $("#results").empty();
         $("#btnScrap").remove();
-        for(var i=0; i<data.length;i++){
-            $("#results").prepend("<p id='"+data[i]._id+"'>"+data[i].headline+"<button id='"+data[i]._id+"' class='btnAddNote btn btn-info btn-lg'  data-toggle='modal' data-target='addNoteModal' >Article Notes</button><button id='"+data[i]._id+"' class='btnDelete'>Delete from Saved</button> </p>");
+        for (var i = 0; i < data.length; i++) {
+            $("#results").prepend("<p id='" + data[i]._id + "'>" + data[i].headline + "<button id='" + data[i]._id + "' class='btnAddNote btn btn-info btn-lg'  data-toggle='modal' data-target='addNoteModal' >Article Notes</button><button id='" + data[i]._id + "' class='btnDelete'>Delete from Saved</button> </p>");
         }
-      // console.log(data);
     });
 });
-$(document).on("click",".btnAddNote",function(){
-    var id=$(this).attr("id");
-    $("#articleId").text("Notes for article: "+id);
+$(document).on("click", ".btnAddNote", function () {
+    var id = $(this).attr("id");
+    $("#articleId").text("Notes for article: " + id);
     $('#addNoteModal').modal('show');
-    $.getJSON("/api/comments/"+id,function(data){
+    $.getJSON("/api/comments/" + id, function (data) {
         console.log("I am here");
         console.log(data);
         $("#notesDiv").empty();
         $("#txtNote").val("");
-        for(var i=0;i<data[0].userComment.length;i++){
-            $("#notesDiv").prepend("<p  data-id='"+data[0].userComment[i]._id+"'>"+data[0].userComment[i].note+"<button data-id='"+data[0].userComment[i]._id+"'  class='btnNotesDiv'>delete</button> ");
+        for (var i = 0; i < data[0].userComment.length; i++) {
+            $("#notesDiv").prepend("<p  data-id='" + data[0].userComment[i]._id + "'>" + data[0].userComment[i].note + "<button data-id='" + data[0].userComment[i]._id + "'  class='btnNotesDiv'>delete</button> ");
         }
     })
 
-    $("#btnAddComment").on("click",function(event){
+    $("#btnAddComment").on("click", function (event) {
         $.ajax({
-            method:"POST",
-            url:"/api/saveComment/"+id,
-            data:{
-                note:$("#txtNote").val(),
+            method: "POST",
+            url: "/api/saveComment/" + id,
+            data: {
+                note: $("#txtNote").val(),
             }
-        }).then(function(data){
+        }).then(function (data) {
             console.log(data);
         })
     })
 });
-$(document).on("click",".btnNotesDiv",function(event){
+$(document).on("click", ".btnNotesDiv", function (event) {
     event.preventDefault();
-    var id=$(this).attr("data-id");
+    var id = $(this).attr("data-id");
+    var articleId = $("#articleId").text();
+    articleId = articleId.replace("Notes for article: ", "");
+    console.log(articleId);
     console.log(id);
     $.ajax({
-        method:"POST",
-        url:"/api/DeleteComment/"+id
-    }).then(function(data){
+        method: "POST",
+        url: "/api/DeleteComment/" + id + "/" + articleId
+    }).then(function (data) {
         console.log("deleted..");
     })
 })
 
 
-$(document).on("click",".btnDelete",function(){
+$(document).on("click", ".btnDelete", function () {
     $('#addNoteModal').modal({ show: false });
-    var id=$(this).attr("id");
+    var id = $(this).attr("id");
     console.log(id);
     $.ajax({
-        method:"POST",
-        url:"/api/DeleteArticle/"+id
-    }).then(function(data){
+        method: "POST",
+        url: "/api/DeleteArticle/" + id
+    }).then(function (data) {
 
         console.log(data);
-       // $("#id p").remove();
-       
     })
 });
 
@@ -77,7 +76,7 @@ function displayNews() {
             localStorage.setItem("scrapeObj", JSON.stringify(data));
         }
         for (var i = 0; i < data.length; i++) {
-            $("#results").prepend("<p class='lead' ><img  class='img-thumbnail' src='"+data[i].imageUrl+"'>" + data[i].headline + "<button  id='" + data[i].headline + "' class='btnSave btn-primary btn-lg'>Save</button> </p><hr>");
+            $("#results").prepend("<p class='lead' ><img  class='img-thumbnail' src='" + data[i].imageUrl + "'>" + data[i].headline + "<button  id='" + data[i].headline + "' class='btnSave btn-primary btn-lg'>Save</button> </p><hr>");
         }
     });
 }
@@ -108,7 +107,6 @@ $(document).on("click", ".btnSave", function () {
         data: objData
     }).then(function (data) {
         console.log(data);
-        // if there is duplicate there is an error message
     })
 })
 

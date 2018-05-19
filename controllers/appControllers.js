@@ -2,8 +2,7 @@ var express = require("express");
 var router = express.Router();
 var db = require("../models");
 var path = require("path");
-//var shortid = require("shortid");
-//for scraping
+
 var request = require("request");
 var cheerio = require("cheerio");
 
@@ -19,18 +18,11 @@ router.get("/api/comments/:articleId", function (req, res) {
         res.json(err);
     });
 });
-/*router.post("/api/DeleteComment/:id",function(req,res){
-    db.Comment.findOneAndRemove({_id: req.params.id}).then(function(data){
-        res.json(data);
-    }).catch(function(err){
-        res.json(err);
-    });
-});*/
 
-router.post("/api/DeleteComment/:id", function (req, res) {
+router.post("/api/DeleteComment/:id/:aid", function (req, res) {
     db.Comment.remove({ _id: req.params.id }).then(function (data) {
-        return db.Article.findOneAndRemove({_id:req.params.id});
-    }).then(function(dataArticle){
+        return db.Article.findOneAndUpdate({ _id: req.params.aid }, { $unset: { _id: req.params.id } });
+    }).then(function (dataArticle) {
         res.json(data);
     }).catch(function (err) {
         res.json(err);
@@ -61,12 +53,10 @@ router.post("/api/saveArticle", function (req, res) {
     db.Article.create(req.body).then(function (data) {
         res.json(data);
     }).catch(function (err) {
-        // If an error occurred, send it to the client
         return res.json(err);
     });
 });
 
-// here execute scraping when click btnScrap button
 router.get("/api/scrape", function (req, res) {
     request("https://www.nytimes.com/section/business", function (err, response, html) {
         var $ = cheerio.load(html);
